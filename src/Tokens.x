@@ -9,9 +9,9 @@ $alpha = [a-zA-Z]
 
 tokens :-
 
-  $white+     ;
-  R [$digit]+ { \s -> TokenRegister $ drop 1 s }
-  L [$digit]+ { \s -> TokenLabel $ drop 1 s }
+  $white+     { \s -> checkWhitespace s }
+  R [$digit]+ { \s -> TokenRegister $ read $ drop 1 s }
+  L [$digit]+ { \s -> TokenLabel $ read $ drop 1 s }
   \-\>        { \s -> TokenArrow }
   HALT        { \s -> TokenHalt }
   \+          { \s -> TokenIncr }
@@ -27,10 +27,16 @@ data Token
   | TokenIncr
   | TokenDecr
   | TokenComma
+  | TokenNewLine
+  | TokenWhiteSpace
     deriving (Show, Eq)
 
-main
-  = do
-    s <- getContents
-    print $ alexScanTokens s
+checkWhitespace :: String -> Token
+checkWhitespace s
+  | '\n' `elem` s = TokenNewLine
+  | otherwise     = TokenWhiteSpace
+
+tokenize :: String -> [Token]
+tokenize
+  = filter (/= TokenWhiteSpace) . alexScanTokens
 }
