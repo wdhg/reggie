@@ -1,6 +1,6 @@
-all: src/Tokens.x src/Grammer.y
-	alex src/Tokens.x
-	happy src/Grammer.y
+all: src/Parser/Tokens.x src/Parser/Grammer.y
+	alex src/Parser/Tokens.x
+	happy src/Parser/Grammer.y
 
 clean:
-	rm -rf src/Tokens.hs src/Grammer.hs
+	rm -rf src/Parser/Tokens.hs src/Parser/Grammer.hs

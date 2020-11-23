@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5607ce8a05240df98c8f34a59e130e736892bf66beb99d5f4db25c77096fe6b6
+-- hash: c341e403c711858ef5c0723c325ad52bab6b5ebdb7b0a23047e542b034eb981f
 
 name:           reggie
 version:        0.1.0.0
@@ -28,12 +28,10 @@ source-repository head
 library
   exposed-modules:
       Encode
-      Grammer
-      Grammer
+      Parser
+      Parser.Grammer
+      Parser.Tokens
       Program
-      Tokens
-      Tokens
-  other-modules:
       Paths_reggie
   hs-source-dirs:
       src
@@ -43,7 +41,7 @@ library
     , hspec >=2.7 && <3
   default-language: Haskell2010
 
-executable reggie-exe
+executable reggie
   main-is: Main.hs
   other-modules:
       Paths_reggie

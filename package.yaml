@@ -28,7 +28,7 @@ library:
   source-dirs: src
 
 executables:
-  reggie-exe:
+  reggie:
     main:                Main.hs
     source-dirs:         app
     ghc-options:

@@ -1,6 +1,6 @@
 {
-module Grammer where
-import Tokens
+module Parser.Grammer where
+import Parser.Tokens
 import Program
 }
 

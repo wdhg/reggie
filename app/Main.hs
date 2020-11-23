@@ -1,8 +1,7 @@
 module Main where
 
 import System.Environment
-import Tokens
-import Grammer
+import Parser
 import Program
 import Encode
 
