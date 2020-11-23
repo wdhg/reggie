@@ -29,5 +29,5 @@ cabal.project.local~
 
 # End of https://www.toptal.com/developers/gitignore/api/haskell
 
-src/Tokens.hs
-src/Grammer.hs
+src/Parser/Tokens.hs
+src/Parser/Grammer.hs
