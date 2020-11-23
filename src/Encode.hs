@@ -10,6 +10,10 @@ class Encode a where
   encode' :: Integral b => a -> b
   encode' = pred . encode
 
-instance Integral a => Encode (a, a) where
+instance (Integral a, Integral b) => Encode (a, b) where
  encode (x, y)
    = fromIntegral $ (2 ^ x) * (2 * y + 1)
+
+instance Encode a => Encode [a] where
+  encode
+    = foldr (\x y -> encode (encode x, y)) 0
