@@ -28,4 +28,5 @@ cabal.project.local~
 .ghc.environment.*
 
 # End of https://www.toptal.com/developers/gitignore/api/haskell
-n
+
+src/Tokens.hs

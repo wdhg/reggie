@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 15a54af5016394970b1263f054fe0f3e7b34d20e57ff4d79861a0ad33f1b44af
+-- hash: 883907d565b738b842e7ddc0baf2d1b8d796631dc17c75dd620b9d04ad584faf
 
 name:           reggie
 version:        0.1.0.0
@@ -29,6 +29,7 @@ library
   exposed-modules:
       Encode
       Program
+      Tokens
   other-modules:
       Paths_reggie
   hs-source-dirs:
