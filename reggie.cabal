@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 37b26908120b42c4879f0ef374da9c160b2a697c92316540491e0ab3fde53b06
+-- hash: 5607ce8a05240df98c8f34a59e130e736892bf66beb99d5f4db25c77096fe6b6
 
 name:           reggie
 version:        0.1.0.0
@@ -38,7 +38,7 @@ library
   hs-source-dirs:
       src
   build-depends:
-      array >=5.4 && <6
+      array >=0.5 && <1
     , base >=4.7 && <5
     , hspec >=2.7 && <3
   default-language: Haskell2010
@@ -51,7 +51,7 @@ executable reggie-exe
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      array >=5.4 && <6
+      array >=0.5 && <1
     , base >=4.7 && <5
     , hspec >=2.7 && <3
     , reggie
@@ -68,7 +68,7 @@ test-suite reggie-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      array >=5.4 && <6
+      array >=0.5 && <1
     , base >=4.7 && <5
     , hspec >=2.7 && <3
     , reggie

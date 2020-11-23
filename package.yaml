@@ -22,7 +22,7 @@ description:         Please see the README on GitHub at <https://github.com/wdhg
 dependencies:
 - base >= 4.7 && < 5
 - hspec >= 2.7 && < 3
-- array >= 5.4 && < 6
+- array >= 0.5 && < 1
 
 library:
   source-dirs: src
