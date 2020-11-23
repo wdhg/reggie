@@ -21,6 +21,7 @@ description:         Please see the README on GitHub at <https://github.com/wdhg
 
 dependencies:
 - base >= 4.7 && < 5
+- hspec >= 2.7 && < 3
 
 library:
   source-dirs: src
