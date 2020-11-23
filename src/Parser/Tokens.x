@@ -16,7 +16,7 @@ tokens :-
   HALT        { \s -> TokenHalt }
   \+          { \s -> TokenIncr }
   \-          { \s -> TokenDecr }
-  \,          { \s -> TokenHalt }
+  \,          { \s -> TokenComma }
 
 {
 data Token
