@@ -32,7 +32,6 @@ library
       Parser.Grammer
       Parser.Tokens
       Program
-      Paths_reggie
   hs-source-dirs:
       src
   build-depends:
