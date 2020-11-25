@@ -75,8 +75,9 @@ This program encodes to `examples/prog1.encode`, which is 1010111 digits long!
 # To Do
 
 - [ ] Erroneous halting
+- [ ] Decoding programs
 - [ ] Add support for custom initial register states
 - [ ] More detailed parsing / lexical errors
-- [ ] Functions / models
+- [ ] Functions / modules
 - [ ] Custom labels
 - [ ] Comments
