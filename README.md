@@ -78,6 +78,6 @@ This program encodes to `examples/prog1.encode`, which is 1010111 digits long!
 - [ ] Decoding programs
 - [ ] Add support for custom initial register states
 - [ ] More detailed parsing / lexical errors
-- [ ] Functions / modules
+- [ ] Functions / modules (Gadgets)
 - [ ] Custom labels
 - [ ] Comments
