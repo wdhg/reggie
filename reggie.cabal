@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c341e403c711858ef5c0723c325ad52bab6b5ebdb7b0a23047e542b034eb981f
+-- hash: 97da9f90e634b89fe883d7d6ef39d3b8123de20f43ae34107baf6e0fa1021102
 
 name:           reggie
 version:        0.1.0.0
@@ -37,6 +37,7 @@ library
   build-depends:
       array >=0.5 && <1
     , base >=4.7 && <5
+    , containers >=0.6 && <1
     , hspec >=2.7 && <3
   default-language: Haskell2010
 
@@ -50,6 +51,7 @@ executable reggie
   build-depends:
       array >=0.5 && <1
     , base >=4.7 && <5
+    , containers >=0.6 && <1
     , hspec >=2.7 && <3
     , reggie
   default-language: Haskell2010
@@ -67,6 +69,7 @@ test-suite reggie-test
   build-depends:
       array >=0.5 && <1
     , base >=4.7 && <5
+    , containers >=0.6 && <1
     , hspec >=2.7 && <3
     , reggie
   default-language: Haskell2010
