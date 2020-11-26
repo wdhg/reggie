@@ -19,6 +19,8 @@ main
       ["encode", prog] -> do
         contents <- readFile prog
         print $ encode $ parse $ tokenize contents
+      ["decode", encoding] -> do
+        mapM_ print (decode $ read encoding :: [Instruction])
       _ -> do
         name <- getProgName
-        putStrLn $ "Usage: " ++ name ++ " <run|encode> <program> [initial state]"
+        putStrLn $ "Usage: " ++ name ++ " <run|encode|decode> <program|encoding> [initial state]"

@@ -7,7 +7,15 @@ data Instruction
   = Incr Int Int
   | Decr Int (Int, Int)
   | Halt
-    deriving (Show, Eq)
+    deriving Eq
+
+instance Show Instruction where
+  show (Incr reg next)
+    = "R" ++ show reg ++ "+ -> L" ++ show next
+  show (Decr reg (nextThen, nextElse))
+    = "R" ++ show reg ++ "+ -> L" ++ show nextThen ++ ", L" ++ show nextElse
+  show Halt
+    = "HALT"
 
 data Machine
   = Machine [Instruction] (Map Int Int) Int
