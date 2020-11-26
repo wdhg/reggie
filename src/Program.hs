@@ -27,34 +27,30 @@ run program
 runMem :: [Instruction] -> [(Int, Int)] -> [(Int, Int)]
 runMem program memoryList
   = let memory = fromList memoryList
-        (Machine _ memory' _) = until finished step $ Machine program memory 0
+        (Machine _ memory' _) = run' $ Machine program memory 0
      in toAscList memory'
 
-finished :: Machine -> Bool
-finished (Machine program _ pc)
+run' :: Machine -> Machine
+run' machine@(Machine program _ pc)
   = case getInstr program pc of
-      Nothing    -> True
-      Just instr -> instr == Halt
+      Halt  -> machine
+      instr -> run' $ step instr machine
 
-step :: Machine -> Machine
-step machine@(Machine program _ pc)
-  = maybe machine (`step'`machine) $ getInstr program pc
-
-step' :: Instruction -> Machine -> Machine
-step' (Incr reg next) (Machine program memory _)
+step :: Instruction -> Machine -> Machine
+step (Incr reg next) (Machine program memory _)
   = Machine program (alter incr reg memory) next
-step' (Decr reg nexts) (Machine program memory _)
+step (Decr reg nexts) (Machine program memory _)
   = let memory' = alter decr reg memory
         next = pickNext (regPositive reg memory') nexts
      in Machine program memory' next
 step' Halt machine
   = machine
 
-getInstr :: [Instruction] -> Int -> Maybe Instruction
+getInstr :: [Instruction] -> Int -> Instruction
 getInstr [] _
-  = Nothing
+  = Halt
 getInstr (instr : _) 0
-  = Just instr
+  = instr
 getInstr (_ : program) pc
   = getInstr program (pc - 1)
 
