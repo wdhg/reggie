@@ -17,8 +17,15 @@ instance Show Instruction where
   show Halt
     = "HALT"
 
+newtype Program
+  = Program [Instruction]
+
+instance Show Program where
+  show (Program program)
+    = unlines $ zipWith (\i l -> "L" ++ show l ++ " : " ++ show i) program [0..]
+
 data Machine
-  = Machine [Instruction] (Map Int Int) Int
+  = Machine Program (Map Int Int) Int
 
 run :: [Instruction] -> [(Int, Int)]
 run program
@@ -27,7 +34,7 @@ run program
 runMem :: [Instruction] -> [(Int, Int)] -> [(Int, Int)]
 runMem program memoryList
   = let memory = fromList memoryList
-        (Machine _ memory' _) = run' $ Machine program memory 0
+        (Machine _ memory' _) = run' $ Machine (Program program)memory 0
      in toAscList memory'
 
 run' :: Machine -> Machine
@@ -46,13 +53,17 @@ step (Decr reg nexts) (Machine program memory _)
 step' Halt machine
   = machine
 
-getInstr :: [Instruction] -> Int -> Instruction
-getInstr [] _
+getInstr :: Program -> Int -> Instruction
+getInstr (Program program)
+  = getInstr' program
+
+getInstr' :: [Instruction] -> Int -> Instruction
+getInstr' [] _
   = Halt
-getInstr (instr : _) 0
+getInstr' (instr : _) 0
   = instr
-getInstr (_ : program) pc
-  = getInstr program (pc - 1)
+getInstr' (_ : program) pc
+  = getInstr' program (pc - 1)
 
 regPositive :: Int -> Map Int Int -> Bool
 regPositive reg memory
