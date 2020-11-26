@@ -13,7 +13,7 @@ instance Show Instruction where
   show (Incr reg next)
     = "R" ++ show reg ++ "+ -> L" ++ show next
   show (Decr reg (nextThen, nextElse))
-    = "R" ++ show reg ++ "+ -> L" ++ show nextThen ++ ", L" ++ show nextElse
+    = "R" ++ show reg ++ "- -> L" ++ show nextThen ++ ", L" ++ show nextElse
   show Halt
     = "HALT"
 

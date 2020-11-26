@@ -27,6 +27,12 @@ To encode a program:
 reggie encode my_program
 ```
 
+To decode a program:
+
+```
+reggie decode 39492109375708945017428251152200252277644104767136612412758819336
+```
+
 ## Example programs
 
 For now the line number (excluding blank lines) equals the label number.
@@ -91,7 +97,7 @@ $ reggie run add "[(1,75),(2,25)]"
 # To Do
 
 - [ ] Erroneous halting
-- [ ] Decoding programs
+- [x] Decoding programs
 - [x] Add support for custom initial register states
 - [ ] More detailed parsing / lexical errors
 - [ ] Functions / modules (Gadgets)
