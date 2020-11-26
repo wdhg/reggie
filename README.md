@@ -18,6 +18,7 @@ To run a program:
 
 ```
 reggie run my_program
+reggie run my_program2 "[(0,10),(2,12)]"
 ```
 
 To encode a program:
@@ -72,11 +73,26 @@ HALT
 
 This program encodes to `examples/prog1.encode`, which is 1010111 digits long!
 
+`examples/add` takes two values from R1 and R2 and adds them to R0
+
+```
+R0+ -> L1
+R1- -> L0, L2
+R0+ -> L3
+R2- -> L2, L4
+HALT
+```
+
+```
+$ reggie run add "[(1,75),(2,25)]"
+[(0,100),(1,0),(2,0)]
+```
+
 # To Do
 
 - [ ] Erroneous halting
 - [ ] Decoding programs
-- [ ] Add support for custom initial register states
+- [x] Add support for custom initial register states
 - [ ] More detailed parsing / lexical errors
 - [ ] Functions / modules (Gadgets)
 - [ ] Custom labels

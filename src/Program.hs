@@ -1,7 +1,7 @@
 module Program where
 
 import Prelude hiding (lookup)
-import Data.Map (Map(..), alter, empty, lookup, toAscList)
+import Data.Map (Map(..), alter, fromList, lookup, toAscList)
 
 data Instruction
   = Incr Int Int
@@ -14,8 +14,13 @@ data Machine
 
 run :: [Instruction] -> [(Int, Int)]
 run program
-  = let (Machine _ memory _) = until finished step $ Machine program empty 0
-     in toAscList memory
+  = runMem program []
+
+runMem :: [Instruction] -> [(Int, Int)] -> [(Int, Int)]
+runMem program memoryList
+  = let memory = fromList memoryList
+        (Machine _ memory' _) = until finished step $ Machine program memory 0
+     in toAscList memory'
 
 finished :: Machine -> Bool
 finished (Machine program _ pc)
