@@ -96,7 +96,7 @@ $ reggie run add "[(1,75),(2,25)]"
 
 # To Do
 
-- [ ] Erroneous halting
+- [x] Erroneous halting
 - [x] Decoding programs
 - [x] Add support for custom initial register states
 - [ ] More detailed parsing / lexical errors
