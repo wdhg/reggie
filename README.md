@@ -81,11 +81,11 @@ This program encodes to `examples/prog1.encode`, which is 1010111 digits long!
 `examples/add` takes two values from R1 and R2 and adds them to R0
 
 ```
-R0+ -> L1
-R1- -> L0, L2
-R0+ -> L3
-R2- -> L2, L4
-HALT
+L0: R0+ -> L1
+L0: R1- -> L0, L2
+L0: R0+ -> L3
+L0: R2- -> L2, L4
+L0: HALT
 ```
 
 ```
