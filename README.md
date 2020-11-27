@@ -4,12 +4,11 @@ Run and encode simple register machine programs. Inspired by the COMP50003 Model
 
 ## Install
 
-Clone this repository and run:
+Installation is done using stack. Clone this repository and run:
 
 ```
 cd reggie
-make
-stack install
+make install
 ```
 
 ## Usage
