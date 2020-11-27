@@ -11,6 +11,7 @@ import Program
 %token
   register { TokenRegister $$ }
   label    { TokenLabel $$ }
+  colon    { TokenColon }
   arrow    { TokenArrow }
   halt     { TokenHalt }
   incr     { TokenIncr }
@@ -28,9 +29,12 @@ Program
 
 
 Instruction
-  : register incr arrow label             { Incr $1 $4 }
-  | register decr arrow label comma label { Decr $1 ($4, $6) }
-  | halt                                  { Halt }
+  : label colon register incr arrow label             { Incr $3 $6 }
+  | label colon register decr arrow label comma label { Decr $3 ($6, $8) }
+  | label colon halt                                              { Halt }
+  | register incr arrow label                         { Incr $1 $4 }
+  | register decr arrow label comma label             { Decr $1 ($4, $6) }
+  | halt                                              { Halt }
 
 {
 parseError :: [Token] -> a

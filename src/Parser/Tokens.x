@@ -12,6 +12,7 @@ tokens :-
   $white+     { \s -> checkWhitespace s }
   R [$digit]+ { \s -> TokenRegister $ read $ drop 1 s }
   L [$digit]+ { \s -> TokenLabel $ read $ drop 1 s }
+  \:          { \s -> TokenColon }
   \-\>        { \s -> TokenArrow }
   HALT        { \s -> TokenHalt }
   \+          { \s -> TokenIncr }
@@ -22,6 +23,7 @@ tokens :-
 data Token
   = TokenRegister Int
   | TokenLabel Int
+  | TokenColon
   | TokenArrow
   | TokenHalt
   | TokenIncr
