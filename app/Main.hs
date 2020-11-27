@@ -20,7 +20,7 @@ main
         contents <- readFile prog
         print $ encode $ parse $ tokenize contents
       ["decode", encoding] -> do
-        putStr $ show $ Program (decode $ read encoding :: [Instruction])
+        print (decode $ read encoding :: Program)
       _ -> do
         name <- getProgName
         putStrLn $ "Usage: " ++ name ++ " <run|encode|decode> <program|encoding> [initial state]"

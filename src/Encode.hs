@@ -2,7 +2,7 @@
 
 module Encode where
 
-import Program (Instruction(..))
+import Program (Instruction(..), Program(..))
 import Data.List (unfoldr)
 
 class Encode a where
@@ -60,3 +60,10 @@ instance Encode Instruction where
         in if even y
               then Incr i z
               else Decr i (j, k)
+
+instance Encode Program where
+  encode (Program instrs)
+    = encode instrs
+
+  decode x
+    = Program $ decode x
