@@ -22,8 +22,8 @@ tokens :-
 
 {
 data Token
-  = TokenRegister Int
-  | TokenLabel Int
+  = TokenRegister Integer
+  | TokenLabel Integer
   | TokenColon
   | TokenArrow
   | TokenHalt

@@ -2,8 +2,9 @@
 
 module Encode where
 
-import Program (Instruction(..), Program(..))
+import Program (Instruction(..), Program(..), Label(..))
 import Data.List (unfoldr)
+import Data.Map (toAscList, fromList)
 
 class Encode a where
  -- Bijection from NxN to N+
@@ -44,10 +45,10 @@ instance Encode a => Encode [a] where
        in unfoldr f z
 
 instance Encode Instruction where
-  encode (Incr reg next)
+  encode (Incr reg (Label next))
     = encode (2 * reg, next)
-  encode (Decr reg nexts)
-    = encode (2 * reg + 1, encode' nexts)
+  encode (Decr reg (Label nextThen, Label nextElse))
+    = encode (2 * reg + 1, encode' (nextThen, nextElse))
   encode Halt
     = 0
 
@@ -58,12 +59,19 @@ instance Encode Instruction where
            i = y `div` 2
            (j,k) = decode' z
         in if even y
-              then Incr i z
-              else Decr i (j, k)
+              then Incr i (Label z)
+              else Decr i (Label j, Label k)
 
 instance Encode Program where
   encode (Program instrs)
-    = encode instrs
+    = encode $ padMissing (Label 0) $ toAscList instrs
+      where
+        padMissing :: Label -> [(Label, Instruction)] -> [Instruction]
+        padMissing _ []
+          = []
+        padMissing label pairs@((label', instr) : remaining)
+          | label < label' = Halt : padMissing (succ label) pairs
+          | otherwise      = instr : padMissing (succ label') remaining
 
   decode x
-    = Program $ decode x
+    = Program $ fromList $ zipWith (\l i -> (Label l, i)) [0..] $ decode x

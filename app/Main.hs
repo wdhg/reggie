@@ -12,13 +12,13 @@ main
     case args of
       ["run", prog] -> do
         contents <- readFile prog
-        print $ run $ parse $ tokenize contents
+        print $ run $ Program $ parse $ tokenize contents
       ["run", prog, memory] -> do
         contents <- readFile prog
-        print $ runMem (parse $ tokenize contents) (read memory)
+        print $ runMem (Program $ parse $ tokenize contents) (read memory)
       ["encode", prog] -> do
         contents <- readFile prog
-        print $ encode $ parse $ tokenize contents
+        print $ encode $ Program $ parse $ tokenize contents
       ["decode", encoding] -> do
         print (decode $ read encoding :: Program)
       _ -> do

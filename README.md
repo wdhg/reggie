@@ -39,16 +39,16 @@ For now the line number (excluding blank lines) equals the label number.
 `examples/prog0` registers 0 and 1 to values of 3 and 4 respectively:
 
 ```
-R0+ -> L1
-R0+ -> L2
-R0+ -> L3
+L0: R0+ -> L1
+L1: R0+ -> L2
+L2: R0+ -> L3
 
-R1+ -> L4
-R1+ -> L5
-R1+ -> L6
-R1+ -> L7
+L3: R1+ -> L4
+L4: R1+ -> L5
+L5: R1+ -> L6
+L6: R1+ -> L7
 
-HALT
+L7: HALT
 ```
 
 This program encodes to 39492109375708945017428251152200252277644104767136612412758819336.
@@ -56,24 +56,24 @@ This program encodes to 39492109375708945017428251152200252277644104767136612412
 `examples/prog1` adds 3 and 4 and stores the result in R0:
 
 ```
-R1+ -> L1
-R1+ -> L2
-R1+ -> L3
+L0: R1+ -> L1
+L1: R1+ -> L2
+L2: R1+ -> L3
 
-R2+ -> L4
-R2+ -> L5
-R2+ -> L6
-R2+ -> L7
+L3: R2+ -> L4
+L4: R2+ -> L5
+L5: R2+ -> L6
+L6: R2+ -> L7
 
-R1- -> L8, L9
-R0+ -> L7
-R0+ -> L10
+L7: R1- -> L8, L9
+L8: R0+ -> L7
+L9: R0+ -> L10
 
-R2- -> L11, L12
-R0+ -> L10
-R0+ -> L13
+L10: R2- -> L11, L12
+L11: R0+ -> L10
+L12: R0+ -> L13
 
-HALT
+L13: HALT
 ```
 
 This program encodes to `examples/prog1.encode`, which is 1010111 digits long!

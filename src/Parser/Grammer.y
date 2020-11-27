@@ -1,7 +1,9 @@
 {
 module Parser.Grammer where
+
 import Parser.Tokens
-import Program
+import Program (Instruction(..), Label(..))
+import Data.Map (empty, insert)
 }
 
 %name parse
@@ -22,19 +24,16 @@ import Program
 %%
 
 Program
-  : Instruction '\n' Program { $1 : $3 }
+  : Instruction '\n' Program { insert (fst $1) (snd $1) $3 }
   | '\n' Program             { $2 }
-  | Instruction              { [$1] }
-  | {- empty -}              { [] }
+  | Instruction              { insert (fst $1) (snd $1) empty }
+  | {- empty -}              { empty }
 
 
 Instruction
-  : label colon register incr arrow label             { Incr $3 $6 }
-  | label colon register decr arrow label comma label { Decr $3 ($6, $8) }
-  | label colon halt                                  { Halt }
-  | register incr arrow label                         { Incr $1 $4 }
-  | register decr arrow label comma label             { Decr $1 ($4, $6) }
-  | halt                                              { Halt }
+  : label colon register incr arrow label             { (Label $1, Incr $3 (Label $6)) }
+  | label colon register decr arrow label comma label { (Label $1, Decr $3 (Label $6, Label $8)) }
+  | label colon halt                                  { (Label $1, Halt) }
 
 {
 parseError :: [Token] -> a
