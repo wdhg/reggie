@@ -10,6 +10,7 @@ $alpha = [a-zA-Z]
 tokens :-
 
   $white+     { \s -> checkWhitespace s }
+  \#.*        ;
   R [$digit]+ { \s -> TokenRegister $ read $ drop 1 s }
   L [$digit]+ { \s -> TokenLabel $ read $ drop 1 s }
   \:          { \s -> TokenColon }
