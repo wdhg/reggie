@@ -102,4 +102,4 @@ $ reggie run add "[(1,75),(2,25)]"
 - [ ] More detailed parsing / lexical errors
 - [ ] Functions / modules (Gadgets)
 - [ ] Custom labels
-- [ ] Comments
+- [x] Comments
