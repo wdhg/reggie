@@ -29,7 +29,7 @@ reggie encode my_program
 To decode a program:
 
 ```
-reggie decode 39492109375708945017428251152200252277644104767136612412758819336
+reggie decode 1356938545749799165120738728340994364585019113312996743434322372066314551816
 ```
 
 ## Example programs
@@ -39,19 +39,18 @@ For now the line number (excluding blank lines) equals the label number.
 `examples/prog0` registers 0 and 1 to values of 3 and 4 respectively:
 
 ```
-L0: R0+ -> L1
-L1: R0+ -> L2
-L2: R0+ -> L3
+L0 : R0+ -> L1
+L1 : R0+ -> L2
+L2 : R0+ -> L4
 
-L3: R1+ -> L4
-L4: R1+ -> L5
-L5: R1+ -> L6
-L6: R1+ -> L7
-
-L7: HALT
+L4 : R1+ -> L5
+L5 : R1+ -> L6
+L6 : R1+ -> L7
+L7 : R1+ -> L8
+L8 : HALT
 ```
 
-This program encodes to 39492109375708945017428251152200252277644104767136612412758819336.
+This program encodes to 1356938545749799165120738728340994364585019113312996743434322372066314551816
 
 `examples/prog1` adds 3 and 4 and stores the result in R0:
 
