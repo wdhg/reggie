@@ -61,7 +61,7 @@ test-suite reggie-test
   main-is: Spec.hs
   other-modules:
       EncodeSpec
-      Parser.TokensSpec
+      ParserSpec
       ProgramSpec
       Paths_reggie
   hs-source-dirs:
