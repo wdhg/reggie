@@ -1,5 +1,19 @@
-L0: R0+ -> L1
-L1: R1- -> L0, L2
-L2: R0+ -> L3
-L3: R2- -> L2, L4
-L4: HALT
+# clear return register
+L0: R0- -> L0, L1
+
+# increment the sumands
+L1: R1+ -> L2
+L2: R2+ -> L3
+
+# add R1 to R0
+L3: R1- -> L4, L5
+L4: R0+ -> L3
+
+# add R2 to R0
+L5: R2- -> L6, L7
+L6: R0+ -> L5
+
+# increment the output
+L7: R0+ -> L8
+
+L8: HALT

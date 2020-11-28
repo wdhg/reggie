@@ -17,7 +17,7 @@ To run a program:
 
 ```
 reggie run my_program
-reggie run my_program2 "[(0,10),(2,12)]"
+reggie run my_program2 10 12
 ```
 
 To encode a program:
@@ -81,15 +81,29 @@ This program encodes to `examples/prog1.encode`, which is 1010111 digits long!
 `examples/add` takes two values from R1 and R2 and adds them to R0
 
 ```
-L0: R0+ -> L1
-L0: R1- -> L0, L2
-L0: R0+ -> L3
-L0: R2- -> L2, L4
-L0: HALT
+# clear return register
+L0: R0- -> L0, L1
+
+# increment the sumands
+L1: R1+ -> L2
+L2: R2+ -> L3
+
+# add R1 to R0
+L3: R1- -> L4, L5
+L4: R0+ -> L3
+
+# add R2 to R0
+L5: R2- -> L6, L7
+L6: R0+ -> L5
+
+# increment the output
+L7: R0+ -> L8
+
+L8: HALT
 ```
 
 ```
-$ reggie run add "[(1,75),(2,25)]"
+$ reggie run add 0 75 25
 [(0,100),(1,0),(2,0)]
 ```
 

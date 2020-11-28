@@ -10,12 +10,10 @@ main
   = do
     args <- getArgs
     case args of
-      ["run", prog] -> do
+      ("run" : prog : arguments) -> do
+        let registers = zip [0..] $ map read arguments
         contents <- readFile prog
-        print $ run $ Program $ parse $ tokenize contents
-      ["run", prog, memory] -> do
-        contents <- readFile prog
-        print $ runMem (Program $ parse $ tokenize contents) (read memory)
+        print $ runMem (Program $ parse $ tokenize contents) registers
       ["encode", prog] -> do
         contents <- readFile prog
         print $ encode $ Program $ parse $ tokenize contents
