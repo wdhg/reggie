@@ -34,8 +34,6 @@ reggie decode 135693854574979916512073872834099436458501911331299674343432237206
 
 ## Example programs
 
-For now the line number (excluding blank lines) equals the label number.
-
 `examples/prog0` registers 0 and 1 to values of 3 and 4 respectively:
 
 ```
