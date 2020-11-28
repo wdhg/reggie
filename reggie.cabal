@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 97da9f90e634b89fe883d7d6ef39d3b8123de20f43ae34107baf6e0fa1021102
+-- hash: 8b09caff3dcdd5f2071d34975593a8fd03ba8e0aa4b12664392ba51da679fa96
 
 name:           reggie
 version:        0.1.0.0
@@ -61,6 +61,7 @@ test-suite reggie-test
   main-is: Spec.hs
   other-modules:
       EncodeSpec
+      Parser.TokensSpec
       ProgramSpec
       Paths_reggie
   hs-source-dirs:
