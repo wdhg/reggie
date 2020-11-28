@@ -60,9 +60,9 @@ run' machine@(Machine program _ pc)
 
 step :: Instruction -> Machine -> Machine
 step (Incr reg next) (Machine program memory _)
-  = Machine program (alter incr reg memory) next
+  = Machine program (alter increment reg memory) next
 step (Decr reg nexts) (Machine program memory _)
-  = let memory' = alter decr reg memory
+  = let memory' = alter decrement reg memory
         next = pickNext (regPositive reg memory') nexts
      in Machine program memory' next
 step' Halt machine
@@ -82,14 +82,14 @@ pickNext :: Bool -> (Label, Label) -> Label
 pickNext True (x, _)  = x
 pickNext False (_, y) = y
 
-incr :: Maybe Integer -> Maybe Integer
-incr Nothing
+increment :: Maybe Integer -> Maybe Integer
+increment Nothing
   = Just 1
-incr (Just x)
+increment (Just x)
   = Just $ succ x
 
-decr :: Maybe Integer -> Maybe Integer
-decr Nothing
+decrement :: Maybe Integer -> Maybe Integer
+decrement Nothing
   = Just (-1)
-decr (Just x)
+decrement (Just x)
   = Just $ pred x
