@@ -30,6 +30,7 @@ instance Show Instruction where
 
 newtype Program
   = Program (Map Label Instruction)
+    deriving Eq
 
 instance Show Program where
   show (Program program)
