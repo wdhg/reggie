@@ -4,7 +4,13 @@ Run and encode simple register machine programs. Inspired by the COMP50003 Model
 
 ## Install
 
-Installation is done using stack. Clone this repository and run:
+To build `reggie` you need `alex` and `happy`. These can be installed by running: 
+
+```
+stack install alex happy
+```
+
+Installation of `reggie` is done using stack. Clone this repository and run:
 
 ```
 cd reggie
