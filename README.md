@@ -23,7 +23,8 @@ To run a program:
 
 ```
 reggie run my_program
-reggie run my_program2 10 12
+reggie run my_program 10 12 # run with registers R0 = 10, R1 = 12
+reggie step my_program      # run a program and print each step
 ```
 
 To encode a program:
@@ -70,13 +71,11 @@ L6: R2+ -> L7
 
 L7: R1- -> L8, L9
 L8: R0+ -> L7
-L9: R0+ -> L10
 
-L10: R2- -> L11, L12
-L11: R0+ -> L10
-L12: R0+ -> L13
+L9: R2- -> L10, L11
+L10: R0+ -> L9
 
-L13: HALT
+L11: HALT
 ```
 
 This program encodes to `examples/prog1.encode`, which is 1010111 digits long!
@@ -87,27 +86,23 @@ This program encodes to `examples/prog1.encode`, which is 1010111 digits long!
 # clear return register
 L0: R0- -> L0, L1
 
-# increment the sumands
-L1: R1+ -> L2
-L2: R2+ -> L3
-
 # add R1 to R0
-L3: R1- -> L4, L5
-L4: R0+ -> L3
+L1: R1- -> L2, L3
+L2: R0+ -> L1
 
 # add R2 to R0
-L5: R2- -> L6, L7
-L6: R0+ -> L5
+L3: R2- -> L4, L5
+L4: R0+ -> L3
 
 # increment the output
-L7: R0+ -> L8
+L5: R0+ -> L6
 
-L8: HALT
+L6: HALT
 ```
 
 ```
 $ reggie run add 0 75 25
-[(0,100),(1,0),(2,0)]
+>>> R0: 100, R1: -1, R2: -1
 ```
 
 # To Do
