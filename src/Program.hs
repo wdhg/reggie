@@ -75,8 +75,8 @@ run' showSteps machine@(Machine program _ label)
 showStep :: Label -> Instruction -> Memory -> IO ()
 showStep label instr memory
   = let whitespace = case instr of
-                       Halt -> "\t\t"
-                       _    -> "\t"
+                       (Decr _ _) -> "\t"
+                       _ -> "\t\t"
      in putStrLn $ show label ++ ": " ++ show instr ++ whitespace ++ "==> " ++ show memory
 
 step :: Instruction -> Machine -> Machine
