@@ -68,16 +68,16 @@ run' showSteps machine@(Machine program _ label)
   = case getInstr program label of
       Halt  -> return machine
       instr -> do
-        let machine'@(Machine _ memory _) = step instr machine
-        when showSteps $ showStep label instr memory
+        let machine' = step instr machine
+        when showSteps $ showStep label instr machine'
         run' showSteps machine'
 
-showStep :: Label -> Instruction -> Memory -> IO ()
-showStep label instr memory
+showStep :: Label -> Instruction -> Machine -> IO ()
+showStep label' instr (Machine _ memory label)
   = let whitespace = case instr of
                        (Decr _ _) -> "\t"
                        _ -> "\t\t"
-     in putStrLn $ show label ++ ": " ++ show instr ++ whitespace ++ "==> " ++ show memory
+     in putStrLn $ show label' ++ ": " ++ show instr ++ whitespace ++ "==> " ++ "(" ++ show label ++ ", " ++ show memory ++ ")"
 
 step :: Instruction -> Machine -> Machine
 step (Incr reg next) (Machine program memory _)
