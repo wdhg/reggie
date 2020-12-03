@@ -76,7 +76,7 @@ regPositive :: Integer -> Map Integer Integer -> Bool
 regPositive reg memory
   = case lookup reg memory of
       Nothing -> False
-      Just x  -> x > 0
+      Just x  -> x >= 0
 
 pickNext :: Bool -> (Label, Label) -> Label
 pickNext True (x, _)  = x
