@@ -51,14 +51,7 @@ instance Show Memory where
 
 data Machine
   = Machine Program Memory Label
-
-instance Show Machine where
-  show (Machine program memory pc)
-    = let instr = getInstr program pc
-          whitespace = case instr of
-                         Halt -> "\t\t"
-                         _    -> "\t"
-       in show instr ++ whitespace ++ "==> " ++ show memory
+    deriving Show
 
 start :: Label
 start = Label 0
@@ -75,9 +68,16 @@ run' showSteps machine@(Machine program _ pc)
   = case getInstr program pc of
       Halt  -> return machine
       instr -> do
-        let machine' = step instr machine
-        when showSteps $ print machine'
+        let machine'@(Machine _ memory _)= step instr machine
+        when showSteps $ showStep instr memory
         run' showSteps machine'
+
+showStep :: Instruction -> Memory -> IO ()
+showStep  instr memory
+  = let whitespace = case instr of
+                       Halt -> "\t\t"
+                       _    -> "\t"
+     in putStrLn $ show instr ++ whitespace ++ "==> " ++ show memory
 
 step :: Instruction -> Machine -> Machine
 step (Incr reg next) (Machine program memory _)

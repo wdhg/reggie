@@ -12,7 +12,7 @@ runProgram showSteps filename arguments
     let registers = zip [0..] $ map read arguments
         program = Program $ parse $ tokenize contents
     memory <- run showSteps program registers
-    print memory
+    putStrLn $ ">>> " ++ show memory
 
 main :: IO ()
 main
