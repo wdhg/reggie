@@ -64,20 +64,20 @@ run showSteps program registers
     return memory'
 
 run' :: Bool -> Machine -> IO Machine
-run' showSteps machine@(Machine program _ pc)
-  = case getInstr program pc of
+run' showSteps machine@(Machine program _ label)
+  = case getInstr program label of
       Halt  -> return machine
       instr -> do
-        let machine'@(Machine _ memory _)= step instr machine
-        when showSteps $ showStep instr memory
+        let machine'@(Machine _ memory _) = step instr machine
+        when showSteps $ showStep label instr memory
         run' showSteps machine'
 
-showStep :: Instruction -> Memory -> IO ()
-showStep  instr memory
+showStep :: Label -> Instruction -> Memory -> IO ()
+showStep label instr memory
   = let whitespace = case instr of
                        Halt -> "\t\t"
                        _    -> "\t"
-     in putStrLn $ show instr ++ whitespace ++ "==> " ++ show memory
+     in putStrLn $ show label ++ ": " ++ show instr ++ whitespace ++ "==> " ++ show memory
 
 step :: Instruction -> Machine -> Machine
 step (Incr reg next) (Machine program memory _)
