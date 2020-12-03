@@ -5,15 +5,22 @@ import Parser
 import Program
 import Encode
 
+runProgram :: Bool -> String -> [String] -> IO ()
+runProgram showSteps filename arguments
+  = do
+    contents <- readFile filename
+    let registers = zip [0..] $ map read arguments
+        program = Program $ parse $ tokenize contents
+    memory <- run showSteps program registers
+    print memory
+
 main :: IO ()
 main
   = do
     args <- getArgs
     case args of
-      ("run" : prog : arguments) -> do
-        let registers = zip [0..] $ map read arguments
-        contents <- readFile prog
-        print $ runMem (Program $ parse $ tokenize contents) registers
+      ("run" : filename : arguments) -> runProgram False filename arguments
+      ("step" : filename : arguments) -> runProgram True filename arguments
       ["encode", prog] -> do
         contents <- readFile prog
         print $ encode $ Program $ parse $ tokenize contents

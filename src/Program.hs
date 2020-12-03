@@ -3,8 +3,10 @@
 module Program where
 
 import Prelude hiding (lookup)
+import Control.Monad (when)
 import Data.Map (Map(..), alter, fromList, lookup, toAscList)
 import Data.Maybe (fromMaybe)
+import Data.List (intercalate)
 
 newtype Label
   = Label Integer
@@ -36,33 +38,52 @@ instance Show Program where
   show (Program program)
     = unlines $ map (\(l, i) -> show l ++ ": " ++ show i) $ toAscList program
 
+newtype Memory
+  = Memory (Map Integer Integer)
+
+instance Show Memory where
+  show (Memory registers)
+    = intercalate ", " $ map showReg $ toAscList registers
+      where
+        showReg :: (Integer, Integer) -> String
+        showReg (reg, value)
+          = "R" ++ show reg ++ ": " ++ show value
+
 data Machine
-  = Machine Program (Map Integer Integer) Label
+  = Machine Program Memory Label
+
+instance Show Machine where
+  show (Machine program memory pc)
+    = let instr = getInstr program pc
+          whitespace = case instr of
+                         Halt -> "\t\t"
+                         _    -> "\t"
+       in show instr ++ whitespace ++ "==> " ++ show memory
 
 start :: Label
 start = Label 0
 
-run :: Program -> [(Integer, Integer)]
-run program
-  = runMem program []
+run :: Bool -> Program -> [(Integer, Integer)] -> IO Memory
+run showSteps program registers
+  = do
+    let memory = Memory $ fromList registers
+    (Machine _ memory' _) <- run' showSteps $ Machine program memory start
+    return memory'
 
-runMem :: Program -> [(Integer, Integer)] -> [(Integer, Integer)]
-runMem program memoryList
-  = let memory = fromList memoryList
-        (Machine _ memory' _) = run' $ Machine program memory start
-     in toAscList memory'
-
-run' :: Machine -> Machine
-run' machine@(Machine program _ pc)
+run' :: Bool -> Machine -> IO Machine
+run' showSteps machine@(Machine program _ pc)
   = case getInstr program pc of
-      Halt  -> machine
-      instr -> run' $ step instr machine
+      Halt  -> return machine
+      instr -> do
+        let machine' = step instr machine
+        when showSteps $ print machine'
+        run' showSteps machine'
 
 step :: Instruction -> Machine -> Machine
 step (Incr reg next) (Machine program memory _)
-  = Machine program (alter increment reg memory) next
+  = Machine program (update increment reg memory) next
 step (Decr reg nexts) (Machine program memory _)
-  = let memory' = alter decrement reg memory
+  = let memory' = update decrement reg memory
         next = pickNext (regPositive reg memory') nexts
      in Machine program memory' next
 step' Halt machine
@@ -72,15 +93,19 @@ getInstr :: Program -> Label -> Instruction
 getInstr (Program program) label
   = fromMaybe Halt $ lookup label program
 
-regPositive :: Integer -> Map Integer Integer -> Bool
-regPositive reg memory
-  = case lookup reg memory of
+regPositive :: Integer -> Memory -> Bool
+regPositive reg (Memory registers)
+  = case lookup reg registers of
       Nothing -> False
       Just x  -> x >= 0
 
 pickNext :: Bool -> (Label, Label) -> Label
 pickNext True (x, _)  = x
 pickNext False (_, y) = y
+
+update :: (Maybe Integer -> Maybe Integer) -> Integer -> Memory -> Memory
+update func reg (Memory registers)
+  = Memory $ alter func reg registers
 
 increment :: Maybe Integer -> Maybe Integer
 increment Nothing
