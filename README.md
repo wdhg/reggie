@@ -39,7 +39,7 @@ To decode a program:
 reggie decode 1356938545749799165120738728340994364585019113312996743434322372066314551816
 ```
 
-To decode a program like 2<sup>94</sup>*16395:
+To decode a program like 2<sup>94</sup> * 16395:
 
 ```
 reggie decode2 94 16395
