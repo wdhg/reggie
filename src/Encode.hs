@@ -74,4 +74,5 @@ instance Encode Program where
           | otherwise      = instr : padMissing (succ label') remaining
 
   decode x
-    = Program $ fromList $ zipWith (\l i -> (Label l, i)) [0..] $ decode x
+    | x < 0     = error "negative encoding"
+    | otherwise = Program $ fromList $ zipWith (\l i -> (Label l, i)) [0..] $ decode x

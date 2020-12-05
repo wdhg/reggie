@@ -26,6 +26,8 @@ main
         print $ encode $ Program $ parse $ tokenize contents
       ["decode", encoding] -> do
         print (decode $ read encoding :: Program)
+      ["decode2", exp, encoding] -> do
+        print (decode $ 2 ^ read exp * read encoding :: Program)
       _ -> do
         name <- getProgName
-        putStrLn $ "Usage: " ++ name ++ " <run|encode|decode> <program|encoding> [initial state]"
+        putStrLn $ "Usage: " ++ name ++ " <run|encode|decode|decode2> <program|encoding> [initial state]"
