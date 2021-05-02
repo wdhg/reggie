@@ -63,7 +63,11 @@ data Step
 
 instance Show Step where
   show (Step instr machine)
-    = show instr ++ " ==> " ++ show machine
+    = let tabs = case instr of
+                   Incr _ _ -> "\t"
+                   Decr _ _ -> "\t"
+                   Halt     -> "\t\t"
+       in show instr ++ tabs ++  " ==> " ++ show machine
 
 start :: Label
 start = Label 0

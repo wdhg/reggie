@@ -24,7 +24,13 @@ To run a program:
 ```
 reggie run my_program
 reggie run my_program 10 12 # run with registers R0 = 10, R1 = 12
-reggie step my_program      # run a program and print each step
+```
+
+To run a program step-by-step:
+
+```
+reggie step my_program
+reggie step my_program 10 12
 ```
 
 To encode a program:
@@ -107,8 +113,26 @@ L6: HALT
 ```
 
 ```
-$ reggie run add 0 75 25
+$ reggie run examples/add 0 75 25
 >>> R0: 100, R1: -1, R2: -1
+```
+
+```
+$ reggie step examples/add 0 3 4
+R0- -> L0, L1    ==> (L0, R0: 0, R1: 3, R2: 2)
+R1- -> L2, L3    ==> (L1, R0: 0, R1: 3, R2: 2)
+R0+ -> L1        ==> (L2, R0: 0, R1: 2, R2: 2)
+R1- -> L2, L3    ==> (L1, R0: 1, R1: 2, R2: 2)
+R0+ -> L1        ==> (L2, R0: 1, R1: 1, R2: 2)
+R1- -> L2, L3    ==> (L1, R0: 2, R1: 1, R2: 2)
+R0+ -> L1        ==> (L2, R0: 2, R1: 0, R2: 2)
+R1- -> L2, L3    ==> (L1, R0: 3, R1: 0, R2: 2)
+R2- -> L4, L5    ==> (L3, R0: 3, R1: 0, R2: 2)
+R0+ -> L3        ==> (L4, R0: 3, R1: 0, R2: 1)
+R2- -> L4, L5    ==> (L3, R0: 4, R1: 0, R2: 1)
+R0+ -> L3        ==> (L4, R0: 4, R1: 0, R2: 0)
+R2- -> L4, L5    ==> (L3, R0: 5, R1: 0, R2: 0)
+HALT             ==> (L5, R0: 5, R1: 0, R2: 0)
 ```
 
 # To Do

@@ -35,4 +35,4 @@ main
         print (decode $ 2 ^ read exp * read encoding :: Program)
       _ -> do
         name <- getProgName
-        putStrLn $ "Usage: " ++ name ++ " <run|encode|decode|decode2> <program|encoding> [initial state]"
+        putStrLn $ "Usage: " ++ name ++ " <run|step|encode|decode|decode2> <program|encoding> [initial state]"
