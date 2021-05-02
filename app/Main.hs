@@ -6,22 +6,26 @@ import Parser
 import Program
 import Encode
 
-runProgram :: String -> [String] -> IO ()
-runProgram filename arguments
+runProgram :: Bool -> String -> [String] -> IO ()
+runProgram showSteps filename arguments
   = do
     contents <- readFile filename
     let memory = Memory $ fromList $ zip [0..] $ map read arguments
         program = Program $ parse $ tokenize contents
         machine = Machine program memory start
-        (Machine _ memory' _) = run machine
-    putStrLn $ ">>> " ++ show memory
+    if showSteps
+       then mapM_ print $ runSteps machine
+       else do
+         putStr ">>> "
+         print $ run machine
 
 main :: IO ()
 main
   = do
     args <- getArgs
     case args of
-      ("run" : filename : arguments) -> runProgram filename arguments
+      ("run" : filename : arguments) -> runProgram False filename arguments
+      ("step" : filename : arguments) -> runProgram True filename arguments
       ["encode", prog] -> do
         contents <- readFile prog
         print $ encode $ Program $ parse $ tokenize contents

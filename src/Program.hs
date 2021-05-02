@@ -51,7 +51,19 @@ instance Show Memory where
 
 data Machine
   = Machine Program Memory Label
-    deriving Show
+
+instance Show Machine where
+  show (Machine _ memory label)
+    = case show memory of 
+        "" -> "(" ++ show label ++ ")"
+        s  -> "(" ++ show label ++ ", " ++ s ++ ")"
+
+data Step
+  = Step Instruction Machine
+
+instance Show Step where
+  show (Step instr machine)
+    = show instr ++ " ==> " ++ show machine
 
 start :: Label
 start = Label 0
@@ -64,6 +76,17 @@ run machine@(Machine program memory label)
         | reg `positiveIn` memory -> run $ Machine program (update decrement reg memory) next
         | otherwise               -> run $ Machine program memory nextZero
       Halt                        -> machine
+
+runSteps :: Machine -> [Step]
+runSteps machine@(Machine program memory label)
+  = let instr = getInstr program label
+        step = Step instr machine
+     in case getInstr program label of
+          (Incr reg next)             -> step : runSteps (Machine program (update increment reg memory) next)
+          (Decr reg (next, nextZero))
+            | reg `positiveIn` memory -> step : runSteps (Machine program (update decrement reg memory) next)
+            | otherwise               -> step : runSteps (Machine program memory nextZero)
+          Halt                        -> [step]
 
 getInstr :: Program -> Label -> Instruction
 getInstr (Program program) label = fromMaybe Halt $ lookup label program
