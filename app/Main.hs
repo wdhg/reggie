@@ -1,17 +1,19 @@
 module Main where
 
 import System.Environment
+import Data.Map (fromList)
 import Parser
 import Program
 import Encode
 
-runProgram :: Bool -> String -> [String] -> IO ()
-runProgram showSteps filename arguments
+runProgram :: String -> [String] -> IO ()
+runProgram filename arguments
   = do
     contents <- readFile filename
-    let registers = zip [0..] $ map read arguments
+    let memory = Memory $ fromList $ zip [0..] $ map read arguments
         program = Program $ parse $ tokenize contents
-    memory <- run showSteps program registers
+        machine = Machine program memory start
+        (Machine _ memory' _) = run machine
     putStrLn $ ">>> " ++ show memory
 
 main :: IO ()
@@ -19,8 +21,7 @@ main
   = do
     args <- getArgs
     case args of
-      ("run" : filename : arguments) -> runProgram False filename arguments
-      ("step" : filename : arguments) -> runProgram True filename arguments
+      ("run" : filename : arguments) -> runProgram filename arguments
       ["encode", prog] -> do
         contents <- readFile prog
         print $ encode $ Program $ parse $ tokenize contents

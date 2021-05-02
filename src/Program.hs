@@ -56,65 +56,26 @@ data Machine
 start :: Label
 start = Label 0
 
-run :: Bool -> Program -> [(Integer, Integer)] -> IO Memory
-run showSteps program registers
-  = do
-    let memory = Memory $ fromList registers
-    (Machine _ memory' _) <- run' showSteps $ Machine program memory start
-    return memory'
-
-run' :: Bool -> Machine -> IO Machine
-run' showSteps machine@(Machine program _ label)
+run :: Machine -> Machine
+run machine@(Machine program memory label)
   = case getInstr program label of
-      Halt  -> return machine
-      instr -> do
-        let machine' = step instr machine
-        when showSteps $ showStep label instr machine'
-        run' showSteps machine'
-
-showStep :: Label -> Instruction -> Machine -> IO ()
-showStep label' instr (Machine _ memory label)
-  = let whitespace = case instr of
-                       (Decr _ _) -> "\t"
-                       _ -> "\t\t"
-     in putStrLn $ show label' ++ ": " ++ show instr ++ whitespace ++ "==> " ++ "(" ++ show label ++ ", " ++ show memory ++ ")"
-
-step :: Instruction -> Machine -> Machine
-step (Incr reg next) (Machine program memory _)
-  = Machine program (update increment reg memory) next
-step (Decr reg nexts) (Machine program memory _)
-  = let memory' = update decrement reg memory
-        next = pickNext (regPositive reg memory') nexts
-     in Machine program memory' next
-step' Halt machine
-  = machine
+      (Incr reg next)             -> run $ Machine program (update increment reg memory) next
+      (Decr reg (next, nextZero))
+        | reg `positiveIn` memory -> run $ Machine program (update decrement reg memory) next
+        | otherwise               -> run $ Machine program memory nextZero
+      Halt                        -> machine
 
 getInstr :: Program -> Label -> Instruction
-getInstr (Program program) label
-  = fromMaybe Halt $ lookup label program
+getInstr (Program program) label = fromMaybe Halt $ lookup label program
 
-regPositive :: Integer -> Memory -> Bool
-regPositive reg (Memory registers)
-  = case lookup reg registers of
-      Nothing -> False
-      Just x  -> x >= 0
-
-pickNext :: Bool -> (Label, Label) -> Label
-pickNext True (x, _)  = x
-pickNext False (_, y) = y
+positiveIn :: Integer -> Memory -> Bool
+positiveIn reg (Memory registers) = maybe False (> 0) $ lookup reg registers
 
 update :: (Maybe Integer -> Maybe Integer) -> Integer -> Memory -> Memory
-update func reg (Memory registers)
-  = Memory $ alter func reg registers
+update func reg (Memory registers) = Memory $ alter func reg registers
 
 increment :: Maybe Integer -> Maybe Integer
-increment Nothing
-  = Just 1
-increment (Just x)
-  = Just $ succ x
+increment = Just . maybe 1 succ
 
 decrement :: Maybe Integer -> Maybe Integer
-decrement Nothing
-  = Just (-1)
-decrement (Just x)
-  = Just $ pred x
+decrement = Just . maybe 0 pred
