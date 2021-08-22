@@ -53,7 +53,7 @@ reggie decode2 94 16395
 
 ## Example programs
 
-`examples/prog0` registers 0 and 1 to values of 3 and 4 respectively:
+`examples/prog0` puts 3 and 4 into R0 and R1 respectively:
 
 ```
 L0: R0+ -> L1
@@ -90,7 +90,7 @@ L10: R0+ -> L9
 L11: HALT
 ```
 
-This program encodes to `examples/prog1.encode`, which is 1010111 digits long!
+This program encodes to `examples/prog1.encode`, which is 477431 digits long!
 
 `examples/add` takes two values from R1 and R2 and adds them to R0
 
